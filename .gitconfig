@@ -1,0 +1,9 @@
+[user]
+	name = Jimmy Zhu
+	email = jimmzhu@gmail.com
+[alias]
+	co = checkout
+	br = branch
+	st = status
+[push]
+	default = upstream

@@ -1,0 +1,105 @@
+"3.8.2 (created: 2014/02/13 23:52:43)
+
+cnoremap <C-k> <Esc><C-k>
+cnoremap <C-l> <Esc><C-l>
+inoremap <A-S-I> <Esc>:tabattach<Space>1
+inoremap <A-S-O> <Esc>:tabdetach<CR>gi
+inoremap <C-k> <Esc><C-k>
+inoremap <C-l> <Esc><C-l>
+inoremap <C-h> <Esc>i<C-h>
+inoremap <C-w> <Esc><C-w>
+inoremap <C-S-H> :tabmove<Space>-1<CR>
+inoremap <C-S-L> :tabmove<Space>+1<CR>
+inoremap <C-(> :tabmove<Space>-1<CR>
+inoremap <C-)> :tabmove<Space>+1<CR>
+noremap H <C-S-Tab>
+noremap L <C-Tab>
+noremap W <C-S-Tab>
+noremap E <C-Tab>
+noremap ( <C-S-Tab>
+noremap ) <C-Tab>
+noremap J <PageDown>
+noremap K <PageUp>
+noremap j <Down>
+noremap k <Up>
+noremap gj <End>
+noremap gk <Home>
+noremap gh :tabfirst<CR>
+noremap gl :tablast<CR>
+noremap { <Left><Left><Left><Left><Left>
+noremap } <Right><Right><Right><Right><Right>
+noremap I <A-Left>
+noremap hh <A-Left>
+noremap ll <A-Right>
+noremap <C-i> zi
+noremap <C-o> zo
+noremap <C-b> i<C-b>
+noremap <C-a> i<C-a>
+noremap a i<C-d>
+noremap ;v i<C-u>
+noremap <A-S-O> :tabdetach<CR>
+noremap <A-S-I> :tabattach<Space>1
+noremap dd <C-w>
+noremap D <C-w>
+noremap U <C-w>
+noremap gg gi<Home><S-End>
+noremap <C-p> i<C-p>
+noremap <C-n> i<C-n>
+noremap <C-S-H> :tabmove<Space>-1<CR>
+noremap <C-S-L> :tabmove<Space>+1<CR>
+noremap <C-(> :tabmove<Space>-1<CR>
+noremap <C-)> :tabmove<Space>+1<CR>
+noremap h <Nop>
+noremap l <Nop>
+noremap d <Nop>
+noremap <Esc> :noh<CR><Esc>
+noremap <Left> i<Left>
+noremap <Right> i<Right>
+noremap gf :buffer!<Space>facebook<CR>
+noremap gy :buffer!<Space>youtube<CR>
+noremap ~ <F11>
+noremap <C-e> ~
+noremap ee <C-`>
+noremap ww <C-~>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-h> <C-Left>
+cnoremap <C-l> <C-Right>
+
+" use javascript to auto-hide statusbar
+" http://superuser.com/questions/704015/hide-status-line-bottom-bar-in-vimperator
+noremap <silent> <F8> :js toggleBottombar()<CR>
+noremap : :js toggleBottombar('on')<CR>:
+noremap o :js toggleBottombar('on')<CR>o
+noremap O :js toggleBottombar('on')<CR>O
+noremap t :js toggleBottombar('on')<CR>t
+noremap T :js toggleBottombar('on')<CR>T
+noremap f :js toggleBottombar('on')<CR>f
+noremap F :js toggleBottombar('on')<CR>F
+noremap / :js toggleBottombar('on')<CR>/
+cnoremap <CR> <CR>:js toggleBottombar('off')<CR>
+cnoremap <Esc> <Esc>:js toggleBottombar('off')<CR>
+
+:js << EOF
+function toggleBottombar(p) {
+  var bb = document.getElementById('liberator-bottombar');
+  if (!bb)
+    return;
+  if (p == 'on') {
+    bb.style.height = '';
+    bb.style.overflow = '';
+    return;
+  }
+  if (p == 'off') {
+    bb.style.height = '0px';
+    bb.style.overflow = 'hidden';
+    return;
+  }
+  bb.style.height = (bb.style.height == '') ? '0px' : '';
+  bb.style.overflow = (bb.style.height == '') ? '' : 'hidden';
+}
+toggleBottombar();
+EOF
+
+" vim: set ft=vimperator:
+source! /home/jimmy/.vimperatorrc.local
