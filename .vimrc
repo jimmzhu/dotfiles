@@ -119,10 +119,10 @@ noremap <silent> <C-M-n> <Esc>:edit .<CR>
 
 " FILE SEARCHING
 """"""""""""""""""""
-nnoremap <Leader>f :Ggrep<Space>
+nnoremap <Leader>f :Ag<Space>
 nnoremap <silent> <Leader>o :CommandT<CR>
 nnoremap <silent> <Leader>b :CommandTBuffer<CR>
-noremap <silent> <F5> :PluginInstall!<CR>
+noremap <silent> <F5> :PlugInstall!<CR>
 
 noremap ; :
 
