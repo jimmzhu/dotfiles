@@ -33,9 +33,9 @@ set smarttab                        " tabbing at start of line uses shiftwidth
     set guifont=Inconsolata\ for\ Powerline\ 12
     " colorscheme
     set t_Co=256                    " 256 colors in terminal
-    syntax on                       " enable syntax highlighting
+    syntax enable                   " enable syntax highlighting
     set background=dark             " dark background
-    colorscheme base16-atelierdune  " colorscheme @ ~/.vim/colors/molokai.vim
+    colorscheme base16-ateliercave  " colorscheme @ ~/.vim/colors
     " guides
     set number                      " line numbers
     set title                       " set window title
@@ -96,6 +96,7 @@ Plug 'scrooloose/syntastic'
 Plug 'bling/vim-airline'
 Plug 'kchmck/vim-coffee-script'
 Plug 'flazz/vim-colorschemes'
+Plug 'atelierbram/vim-colors_atelier-schemes'
 Plug 'ap/vim-css-color'
 Plug 'tpope/vim-fugitive'
 Plug 'pangloss/vim-javascript' | Plug 'mxw/vim-jsx'
