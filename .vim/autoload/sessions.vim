@@ -6,10 +6,10 @@
 function! sessions#MakeSession()
     if g:sessionfile != ""
         if (filewritable(g:sessiondir) != 2)
-            exe 'silent !mkdir -p ' g:sessiondir
+            exe 'silent !mkdir -p ' . fnameescape(g:sessiondir)
             redraw!
         endif
-        exe "mksession! " . g:sessionfile
+        exe "mksession! " . fnameescape(g:sessionfile)
         echo "Session Saved."
     else
         " TODO: prompt user to override and save session anyway
@@ -20,7 +20,7 @@ endfunction
 " Updates a session if it already exists
 function! sessions#UpdateSession()
     if (g:sessionfile != "" && filereadable(g:sessionfile))
-        exe "mksession! " . g:sessionfile
+        exe "mksession! " . fnameescape(g:sessionfile)
         echo "Session Saved."
     endif
 endfunction
@@ -31,7 +31,7 @@ function! sessions#LoadSession()
         let g:sessiondir = $HOME . "/.vim/sessions" . getcwd()
         let g:sessionfile = g:sessiondir . "/session.vim"
         if (filereadable(g:sessionfile))
-            exe 'source ' g:sessionfile
+            exe 'source ' . fnameescape(g:sessionfile)
         else
             echo "No session loaded."
         endif

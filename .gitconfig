@@ -7,3 +7,5 @@
 	st = status
 [push]
 	default = upstream
+[core]
+	excludesfile = ~/.gitignore

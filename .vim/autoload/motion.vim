@@ -79,18 +79,18 @@ endfunction
 function! motion#NextPara(visualMode)
     " 'W' = don't wrap search, default = forward, 'e' = go to end of match
     " if search reached end of file, go to end of file
-    if searchpos('\v(\n\s*([/#%"].*)?$)+\n\s*\S', 'eW') == [0,0]
+    if searchpos('\v(\n\s*([/#%].*|\W*)?$)+\n\s*\S', 'eW') == [0,0]
         normal! G^
     endif
 
     " gv then <Esc> ensures that searchpos searches properly in visual mode
     if a:visualMode
         execute "normal! gv\<Esc>"
-        if searchpos('\v(\n\s*([/#%"].*)?$)+\n\s*\S', 'W') == [0,0]
+        if searchpos('\v(\n\s*([/#%].*|\W*)?$)+\n\s*\S', 'W') == [0,0]
             normal! gvG$
         else
             normal! gv
-            execute "normal! /\\v(\\n\\s*([/#%\"].*)?$)+\\n\\s*\\S/\<CR>"
+            execute "normal! /\\v(\\n\\s*([/#%].*|\\W*)?$)+\\n\\s*\\S/\<CR>"
             execute "normal! :\<C-u>noh\<CR>"
             normal! gv$
         endif
@@ -103,7 +103,7 @@ function! motion#PrevPara(visualMode)
     " if search reached start of file, go to start of file
     " normal! 0 prevents search from returning the current line
     normal! 0
-    if searchpos('\v(\n\s*([/#%"].*)?$)+\n\s*\S', 'beW') == [0,0]
+    if searchpos('\v(\n\s*([/#%].*|\W*)?$)+\n\s*\S', 'beW') == [0,0]
         normal! gg
     endif
 
@@ -111,11 +111,11 @@ function! motion#PrevPara(visualMode)
     if a:visualMode
         execute "normal! gv\<Esc>"
         normal! 0
-        if searchpos('\v(\n\s*([/#%"].*)?$)+\n\s*\S', 'beW') == [0,0]
+        if searchpos('\v(\n\s*([/#%].*|\W*)?$)+\n\s*\S', 'beW') == [0,0]
             normal! gvgg0
         else
             normal! gv
-            execute "normal! 0?\\v(\\n\\s*([/#%\"].*)\\?$)+\\n\\s*\\S?e\<CR>"
+            execute "normal! 0?\\v(\\n\\s*([/#%].*|\\W*)\\?$)+\\n\\s*\\S?e\<CR>"
             execute "normal! :\<C-u>noh\<CR>"
             normal! gv0
         endif

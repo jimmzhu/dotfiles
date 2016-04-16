@@ -24,8 +24,8 @@ function! comments#ToggleComments()
   if fSuffix =~ 'vim'
     " .vimrc, .gvimrc, .vimperatorrc
     execute "normal! :s!^!\"!\<CR>"
-  elseif fSuffix == 'm'
-    " .m (Matlab)
+  elseif fSuffix == 'm' || fSuffix == 'tex'
+    " .m (Matlab), .tex (TeX)
     execute "normal! :s!^!%!\<CR>"
   elseif index(['c', 'cpp', 'h', 'cs', 'java', 'js', 'jsx', 'scala',
               \ 'css', 'scss', 'sass', 'less'], fSuffix) >= 0

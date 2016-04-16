@@ -60,13 +60,13 @@ set smarttab                        " tabbing at start of line uses shiftwidth
 " files to ignore when searching
 set wildignore+=tags
 set wildignore+=*/tmp/*
+set wildignore+=*/env/*
 set wildignore+=*/vendor/*
 set wildignore+=*/spec/vcr/*
-set wildignore+=*/public/*
 set wildignore+=*/chef/*
 set wildignore+=*/coverage/*
 set wildignore+=*/node_modules/*
-set wildignore+=*.png,*.jpg,*.otf,*.woff,*.jpeg,*.orig
+set wildignore+=*.png,*.jpg,*.otf,*.woff,*.jpeg,*.orig,*.o
 
 " ----------------------------------------------------------------------------
 "  Plugins
@@ -76,10 +76,10 @@ let g:airline_powerline_fonts = 1   " enable powerline font symbols
 let g:CommandTMaxHeight=12          " limit rows for Command-T
 let g:CommandTMatchWindowReverse=0  " show matched file at top of match window
 let g:ycm_allow_changing_updatetime = 0
+let g:tagbar_autoclose = 1          " auto-close tagbar window on tag selection
 
 " Plugins to consider:
 " snipmate
-" tagbar
 
 " TODO:
 " maxbrunsfeld/vim-emacs-bindings
@@ -93,6 +93,7 @@ Plug 'wincent/Command-T'
 "Plug 'Floobits/floobits-vim'
 "Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
+Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
 Plug 'kchmck/vim-coffee-script'
 Plug 'flazz/vim-colorschemes'
@@ -120,10 +121,12 @@ noremap <silent> <C-M-n> <Esc>:edit .<CR>
 
 " FILE SEARCHING
 """"""""""""""""""""
-nnoremap <Leader>f :Ag<Space>
+nnoremap <Leader>f :Ggrep<Space>
 nnoremap <silent> <Leader>o :CommandT<CR>
 nnoremap <silent> <Leader>b :CommandTBuffer<CR>
-noremap <silent> <F5> :PlugInstall!<CR>
+nnoremap <silent> <Leader>b :CommandTBuffer<CR>
+nnoremap <silent> <Leader>l :TagbarToggle<CR>
+"noremap <silent> <F5> :PlugInstall!<CR>
 
 noremap ; :
 
@@ -293,11 +296,12 @@ noremap r <Esc><C-r>
 autocmd FileType python setlocal shiftwidth=4
 autocmd FileType java setlocal shiftwidth=4
 autocmd FileType c setlocal shiftwidth=4
+autocmd FileType cpp setlocal shiftwidth=4
 
 " unmap modifying keys for nonmodifiable files
-autocmd BufReadPost * if !&modifiable
-                      \ | execute ":nnoremap <buffer> <CR> <CR>"
-                      \ | nnoremap <buffer> o <CR>
+"autocmd BufReadPost * if !&modifiable
+"                      \ | execute ":nnoremap <buffer> <CR> <CR>"
+"                      \ | nnoremap <buffer> o <CR>
 
 " auto-remove trailing whitespace on write
 autocmd BufWritePre * :%s/\s\+$//e
