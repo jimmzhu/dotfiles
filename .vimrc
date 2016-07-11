@@ -30,7 +30,7 @@ set smarttab                        " tabbing at start of line uses shiftwidth
 " ----------------------------------------------------------------------------
 
     " font
-    set guifont=Inconsolata\ for\ Powerline\ 12
+    set guifont=Inconsolata\ 14
     " colorscheme
     set t_Co=256                    " 256 colors in terminal
     syntax enable                   " enable syntax highlighting
@@ -89,12 +89,13 @@ let g:tagbar_autoclose = 1          " auto-close tagbar window on tag selection
 call plug#begin('~/.vim/plugged')
 "Plug 'mileszs/ack.vim'
 Plug 'rking/ag.vim'
-Plug 'wincent/Command-T'
+Plug 'wincent/Command-T', { 'do': 'cd ruby/command-t && ruby extconf.rb && make' }
 "Plug 'Floobits/floobits-vim'
 "Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'kchmck/vim-coffee-script'
 Plug 'flazz/vim-colorschemes'
 Plug 'atelierbram/vim-colors_atelier-schemes'
