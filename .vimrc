@@ -35,7 +35,7 @@ set smarttab                        " tabbing at start of line uses shiftwidth
     set t_Co=256                    " 256 colors in terminal
     syntax enable                   " enable syntax highlighting
     set background=dark             " dark background
-    colorscheme base16-ateliercave  " colorscheme @ ~/.vim/colors
+    colorscheme hybrid              " colorscheme @ ~/.vim/colors
     " guides
     set number                      " line numbers
     set title                       " set window title
@@ -66,17 +66,22 @@ set wildignore+=*/spec/vcr/*
 set wildignore+=*/chef/*
 set wildignore+=*/coverage/*
 set wildignore+=*/node_modules/*
-set wildignore+=*.png,*.jpg,*.otf,*.woff,*.jpeg,*.orig,*.o
+set wildignore+=*.png,*.jpg,*.otf,*.woff,*.jpeg,*.orig,*.o,*.pyc
+
+" Use ~/.vim/tmp rather than /tmp to avoid unexpected clean ups
+let $TMPDIR = "~/.vim/tmp"
 
 " ----------------------------------------------------------------------------
 "  Plugins
 " ----------------------------------------------------------------------------
 
-let g:airline_powerline_fonts = 1   " enable powerline font symbols
+let g:LargeFile = 100               " LargeFile.vim: disable syntax on files > 100 MB
+let g:airline_powerline_fonts=0     " enable powerline font symbols
 let g:CommandTMaxHeight=12          " limit rows for Command-T
 let g:CommandTMatchWindowReverse=0  " show matched file at top of match window
-let g:ycm_allow_changing_updatetime = 0
-let g:tagbar_autoclose = 1          " auto-close tagbar window on tag selection
+let g:ycm_allow_changing_updatetime=0
+let g:ycm_seed_identifiers_with_syntax=1
+let g:tagbar_autoclose=1            " auto-close tagbar window on tag selection
 
 " Plugins to consider:
 " snipmate
@@ -167,10 +172,12 @@ vnoremap <silent> { :<C-u>call motion#StartBlock(1)<CR>
 """"""""""""""""""""
 noremap ( gT
 noremap ) gt
-nnoremap <silent> <C-M-w> :tabmove -1<CR>
-nnoremap <silent> <C-M-e> :tabmove +1<CR>
-vnoremap <silent> <C-M-w> :<C-u>tabmove -1<CR>
-vnoremap <silent> <C-M-e> :<C-u>tabmove +1<CR>
+noremap [5^ gT
+noremap [6^ gt
+nnoremap <silent> <C-S-(> :tabmove -1<CR>
+nnoremap <silent> <C-S-)> :tabmove +1<CR>
+vnoremap <silent> <C-S-(> :<C-u>tabmove -1<CR>
+vnoremap <silent> <C-S-)> :<C-u>tabmove +1<CR>
 
 " SPLITS
 """"""""""""""""""""
@@ -206,6 +213,8 @@ noremap gk gg
 " SYSTEM CLIPBOARD PASTE
 """"""""""""""""""""
 inoremap <C-v> <Esc>"+p
+noremap <silent> <leader>p "0p
+noremap <silent> <leader>P "0P
 
 " YCD TWEAKS
 """"""""""""""""""""
@@ -226,10 +235,10 @@ nnoremap S R
 
 " CHANGE IN TWEAKS
 """"""""""""""""""""
-nnoremap ci( f)ci)
-nnoremap ci{ f}ci}
-nnoremap ci[ f]ci]
-nnoremap ci< f>ci>
+nnoremap ci) f)ci)
+nnoremap ci} f}ci}
+nnoremap ci] f]ci]
+nnoremap ci> f>ci>
 " use ci<Space>, di<Space>, yi<Space> for ciW, diW, yiW
 onoremap i<Space> iW
 
@@ -325,3 +334,12 @@ augroup myvimrchooks
     au!
     autocmd bufwritepost .vimrc call sessions#UpdateVimrc()
 augroup END
+
+" Use ~/.vim/tmp rather than /tmp to avoid unexpected clean ups
+" perl <<EOT
+"   my $vim_home = "$ENV{'HOME'}/.vim";
+"   if ( -e $vim_home ) {
+"     my $tmp_dir = "$vim_home/tmp";
+"     mkdir $tmp_dir unless ( -e $tmp_dir );
+"   }
+" EOT
