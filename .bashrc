@@ -26,4 +26,7 @@
 #export PILOTRATE=115200
 
 test -s ~/.alias && . ~/.alias || true
+export DISPLAY=localhost:0.0
 export HISTCONTROL=ignoredups
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

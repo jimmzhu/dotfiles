@@ -10,3 +10,4 @@
 	default = upstream
 [core]
 	excludesfile = ~/.gitignore
+	editor = nvim

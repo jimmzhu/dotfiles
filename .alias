@@ -1,2 +1,2 @@
-# open stuff with default KDE program
-alias open='kde-open'
+# Prefer nvim
+alias vim=nvim
