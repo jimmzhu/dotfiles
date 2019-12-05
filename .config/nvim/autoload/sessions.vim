@@ -28,7 +28,7 @@ endfunction
 " Loads a session if it exists
 function! sessions#LoadSession()
     if argc() == 0
-        let g:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+        let g:sessiondir = $HOME . "/.config/nvim/sessions" . getcwd()
         let g:sessionfile = g:sessiondir . "/session.vim"
         if (filereadable(g:sessionfile))
             exe 'source ' . fnameescape(g:sessionfile)
@@ -41,6 +41,7 @@ function! sessions#LoadSession()
     endif
 endfunction
 
+" Broken in Neovim
 function! sessions#UpdateVimrc()
     for server in split(serverlist())
         call remote_send(server, '<Esc>:source $HOME/.vimrc<CR>')

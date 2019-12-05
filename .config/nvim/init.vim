@@ -35,7 +35,7 @@ set smarttab                        " tabbing at start of line uses shiftwidth
     set t_Co=256                    " 256 colors in terminal
     syntax enable                   " enable syntax highlighting
     set background=dark             " dark background
-    colorscheme hybrid              " colorscheme @ ~/.vim/colors
+    colorscheme Atelier_SeasideLight" colorscheme @ ~/.config/nvim/colors
     " guides
     set number                      " line numbers
     set title                       " set window title
@@ -78,30 +78,26 @@ let $TMPDIR = "~/.config/nvim/tmp"
 "  Plugins
 " ----------------------------------------------------------------------------
 
+let g:fzf_layout = { 'down': '~25%' }
 let g:fzf_command_prefix = 'Fzf'
 let g:LargeFile = 100               " LargeFile.vim: disable syntax on files > 100 MB
-let g:airline_powerline_fonts=0     " disable powerline font symbols
-let g:CommandTMaxHeight=12          " limit rows for Command-T
+let g:airline_powerline_fonts=1     " enable powerline font symbols
 let g:CommandTMatchWindowReverse=0  " show matched file at top of match window
 let g:ycm_allow_changing_updatetime=0
 let g:ycm_seed_identifiers_with_syntax=1
 let g:tagbar_autoclose=1            " auto-close tagbar window on tag selection
 let g:NERDTreeQuitOnOpen=1          " auto-close nerdtree on open
 let g:NERDTreeMinimalUI=1
-noremap - :NERDTreeToggle<CR>
 
 " Plugins to consider:
 " snipmate, ultisnips
 
 " TODO:
-" figure out sessions
 " make vim-vinegar open in new split and target current split
-" migrate from Command-T to fzf
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'jiangmiao/auto-pairs'
 "Plug 'm-kat/aws-vim'
-"Plug 'wincent/Command-T', { 'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
@@ -142,9 +138,8 @@ noremap <silent> <C-M-n> <Esc>:edit .<CR>
 """"""""""""""""""""
 nnoremap <Leader>f :Ggrep<Space>
 nnoremap <silent> <Leader>o :FzfFiles<CR>
-nnoremap <silent> <Leader>b :FzfBuffers<CR>
+nnoremap <silent> <Leader>b :FzfGFiles?<CR>
 nnoremap <silent> <Leader>l :TagbarToggle<CR>
-"noremap <silent> <F5> :PlugInstall!<CR>
 
 noremap ; :
 
@@ -270,6 +265,9 @@ vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 nnoremap <Tab> >>
 nnoremap <S-Tab> <<
+" use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " MACRO MAGIC
 """"""""""""""""""""
@@ -353,6 +351,12 @@ vnoremap <leader>a :<C-u>call sessions#MakeSession()<CR>
 autocmd QuickFixCmdPost *grep* cwindow
 " don't expand tabs for make files
 autocmd FileType make setlocal noexpandtab
+
+if has('nvim')
+  autocmd! FileType fzf
+  autocmd  FileType fzf set laststatus=0 noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+endif
 
 augroup myvimrchooks
     au!

@@ -36,6 +36,12 @@ sudo zypper ref
 sudo zypper in neovim python2-neovim python3-neovim
 ```
 
+### Install Nerd Fonts
+
+https://github.com/ryanoasis/nerd-fonts
+
+Nerd Fonts to make vim-airline and other stuff pretty.
+
 ### Install vim plugins
 
 Open nvim, then
@@ -77,9 +83,7 @@ rbenv global 2.5.1
 ```
 
 #### TODO
-git dag alias
-fzf customization
-font patch for vim-airline
-configure autocomplete to use tab completion
+upgrade to neovim 0.4 and use floating fzf windows
+https://github.com/junegunn/fzf/blob/master/README-VIM.md
 language servers
 syntastic replacement

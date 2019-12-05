@@ -5,7 +5,8 @@
 	co = checkout
 	br = branch
 	st = status
-	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	hi = "log --pretty=format:\"%C(auto)%h%d%n%s %C(#00a0ff)[%an %ad]\" --graph --date=short"
+	hist = "log --pretty=format:\"%C(auto)%h%d%n%s %C(#00a0ff)[%an %ad]\" --graph --date=short"
 [push]
 	default = upstream
 [core]
