@@ -59,11 +59,27 @@ nvm ls
 nvm install node
 ```
 
-### Install python, python-devel
-
-https://github.com/Valloric/YouCompleteMe#fedora-linux-x64
+#### Install javascript/typescript language server
 ```
-sudo zypper install automake gcc gcc-c++ kernel-devel cmake python-devel python3-devel
+npm install -g javascript-typescript-langserver
+```
+
+### Install python via pyenv
+
+https://github.com/pyenv/pyenv#installation
+```
+sudo zypper install pyenv
+
+# Install latest python version
+pyenv install -l
+pyenv install 3.7.2
+pyenv rehash
+pyenv global 3.7.2
+```
+
+#### Install python language server
+```
+pip install python-language-server
 ```
 
 ### Install ruby via rbenv
@@ -83,7 +99,9 @@ rbenv global 2.5.1
 ```
 
 #### TODO
-upgrade to neovim 0.4 and use floating fzf windows
+upgrade to neovim 0.5 and use floating fzf windows
 https://github.com/junegunn/fzf/blob/master/README-VIM.md
+nnn.vim
+https://github.com/mcchrish/nnn.vim
 language servers
 syntastic replacement

@@ -88,12 +88,21 @@ let g:ycm_seed_identifiers_with_syntax=1
 let g:tagbar_autoclose=1            " auto-close tagbar window on tag selection
 let g:NERDTreeQuitOnOpen=1          " auto-close nerdtree on open
 let g:NERDTreeMinimalUI=1
+let g:LanguageClient_serverCommands = {
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'],
+    \ }
+
+let g:LanguageClient_rootMarkers = {
+    \ 'javascript': ['jsconfig.json'],
+    \ 'typescript': ['tsconfig.json'],
+    \ }
 
 " Plugins to consider:
 " snipmate, ultisnips
 
 " TODO:
-" make vim-vinegar open in new split and target current split
+" nnn.vim + floating windows??
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'jiangmiao/auto-pairs'
@@ -101,14 +110,18 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
-"Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
 Plug 'atelierbram/vim-colors_atelier-schemes'
-"Plug 'ap/vim-css-color'
-"Plug 'tpope/vim-fugitive'
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-path'
+Plug 'roxma/nvim-yarp'
+
+"Syntax plugins
+Plug 'ap/vim-css-color'
+Plug 'leafgarland/typescript-vim'
 "Plug 'pangloss/vim-javascript' | Plug 'mxw/vim-jsx'
 "Plug 'elzr/vim-json'
 "Plug 'digitaltoad/vim-pug'
@@ -117,11 +130,12 @@ Plug 'atelierbram/vim-colors_atelier-schemes'
 "Plug 'derekwyatt/vim-scala'
 "Plug 'slim-template/vim-slim'
 "Plug 'wavded/vim-stylus'
-Plug 'ncm2/ncm2'
-Plug 'ncm2/ncm2-path'
-Plug 'roxma/nvim-yarp'
-"Plug 'scrooloose/nerdtree'
 "Plug 'stephpy/vim-yaml'
+
+"Disabled plugins
+"Plug 'scrooloose/syntastic'
+"Plug 'tpope/vim-fugitive'
+"Plug 'scrooloose/nerdtree'
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 call plug#end()
 
@@ -139,9 +153,13 @@ noremap <silent> <C-M-n> <Esc>:edit .<CR>
 nnoremap <Leader>f :Ggrep<Space>
 nnoremap <silent> <Leader>o :FzfFiles<CR>
 nnoremap <silent> <Leader>b :FzfGFiles?<CR>
-nnoremap <silent> <Leader>l :TagbarToggle<CR>
+nnoremap <silent> <Leader>l :TagbarOpenAutoClose<CR>
 
 noremap ; :
+
+" LANGUAGE SERVER
+""""""""""""""""""""
+
 
 " BASIC NAVIGATION
 """"""""""""""""""""
@@ -337,9 +355,14 @@ autocmd FileType cpp setlocal shiftwidth=4
 
 " auto-remove trailing whitespace on write
 autocmd BufWritePre * :%s/\s\+$//e
-" remember folding
-autocmd BufWinLeave *.vimrc mkview!
-autocmd BufWinEnter *.vimrc silent loadview
+" remember folding for .vimrc
+"autocmd BufWinLeave *.vimrc mkview!
+"autocmd BufWinEnter *.vimrc silent loadview
+"augroup myvimrchooks
+"    au!
+"    autocmd bufwritepost .vimrc call sessions#UpdateVimrc()
+"augroup END
+
 " load last session if available (update on close)
 " (doesn't play well with YouCompleteMe)
 autocmd VimEnter * nested :call sessions#LoadSession()
@@ -351,6 +374,8 @@ vnoremap <leader>a :<C-u>call sessions#MakeSession()<CR>
 autocmd QuickFixCmdPost *grep* cwindow
 " don't expand tabs for make files
 autocmd FileType make setlocal noexpandtab
+" map language client commands
+autocmd FileType * call LanguageClientMaps()
 
 if has('nvim')
   autocmd! FileType fzf
@@ -358,7 +383,15 @@ if has('nvim')
     \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 endif
 
-augroup myvimrchooks
-    au!
-    autocmd bufwritepost .vimrc call sessions#UpdateVimrc()
-augroup END
+function! LanguageClientMaps()
+  if has_key(g:LanguageClient_serverCommands, &filetype)
+    nnoremap <buffer> <silent> gd
+        \ :call LanguageClient#textDocument_definition()<CR>
+
+    nnoremap <silent> S
+        \ :call LanguageClient#textDocument_rename()<CR>
+
+    nnoremap <silent> <Leader><Leader>
+        \ :call LanguageClient#textDocument_hover()<CR>
+  endif
+endfunction

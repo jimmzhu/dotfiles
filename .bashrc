@@ -34,3 +34,13 @@ export FZF_DEFAULT_COMMAND='
       sed s/^..//) 2> /dev/null'
 
 #[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# nodejs
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# python
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
