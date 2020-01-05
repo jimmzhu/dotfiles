@@ -80,8 +80,8 @@ let $TMPDIR = "~/.config/nvim/tmp"
 
 let g:fzf_layout = { 'down': '~25%' }
 let g:fzf_command_prefix = 'Fzf'
-let g:LargeFile = 100               " LargeFile.vim: disable syntax on files > 100 MB
 let g:airline_powerline_fonts=1     " enable powerline font symbols
+let g:airline_section_y=''          " don't show file encoding
 let g:CommandTMatchWindowReverse=0  " show matched file at top of match window
 let g:ycm_allow_changing_updatetime=0
 let g:ycm_seed_identifiers_with_syntax=1
@@ -91,11 +91,7 @@ let g:NERDTreeMinimalUI=1
 let g:LanguageClient_serverCommands = {
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'typescript': ['javascript-typescript-stdio'],
-    \ }
-
-let g:LanguageClient_rootMarkers = {
-    \ 'javascript': ['jsconfig.json'],
-    \ 'typescript': ['tsconfig.json'],
+    \ 'python': ['pyls'],
     \ }
 
 " Plugins to consider:

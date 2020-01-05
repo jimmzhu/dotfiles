@@ -67,22 +67,47 @@ npm install -g javascript-typescript-langserver
 ### Install python via pyenv
 
 https://github.com/pyenv/pyenv#installation
+https://github.com/pyenv/pyenv/wiki
+https://github.com/pyenv/pyenv/wiki/Common-build-problems
+https://vandragt.com/2018/install-python-371-on-opensuse-tumbleweed
 ```
 sudo zypper install pyenv
+
+# Install python build dependencies
+zypper in zlib-devel bzip2 libbz2-devel libffi-devel libopenssl-devel \
+readline-devel sqlite3 sqlite3-devel xz xz-devel
 
 # Install latest python version
 pyenv install -l
 pyenv install 3.7.2
 pyenv rehash
 pyenv global 3.7.2
+
+# Upgrade pip
+which pip
+pip install --upgrade pip
+```
+
+#### Install AWS CLI
+
+https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html
+```
+pip3 install awscli --upgrade
 ```
 
 #### Install python language server
-```
-pip install python-language-server
-```
+https://github.com/palantir/python-language-server
 
-### Install ruby via rbenv
+```
+pip install python-language-server[pyflakes,rope]
+```
+Includes:
+* Pyflakes linter to detect various errors
+* Rope for Completions and renaming
+
+See github link for more linters and formatters you might want.
+
+### Install ruby via rbenv (optional)
 
 https://en.opensuse.org/User:Tsu2/Install_Ruby
 ```
