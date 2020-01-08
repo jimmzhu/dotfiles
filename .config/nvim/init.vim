@@ -35,7 +35,7 @@ set smarttab                        " tabbing at start of line uses shiftwidth
     set t_Co=256                    " 256 colors in terminal
     syntax enable                   " enable syntax highlighting
     set background=dark             " dark background
-    colorscheme Atelier_SeasideLight" colorscheme @ ~/.config/nvim/colors
+    colorscheme Atelier_SeasideDark " colorscheme @ ~/.config/nvim/colors
     " guides
     set number                      " line numbers
     set title                       " set window title
@@ -80,6 +80,7 @@ let $TMPDIR = "~/.config/nvim/tmp"
 
 let g:fzf_layout = { 'down': '~25%' }
 let g:fzf_command_prefix = 'Fzf'
+let g:airline_theme = 'zenburn'
 let g:airline_powerline_fonts=1     " enable powerline font symbols
 let g:airline_section_y=''          " don't show file encoding
 let g:CommandTMatchWindowReverse=0  " show matched file at top of match window
@@ -110,7 +111,6 @@ Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
-Plug 'atelierbram/vim-colors_atelier-schemes'
 Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-path'
 Plug 'roxma/nvim-yarp'
@@ -313,7 +313,8 @@ nnoremap <S-CR> O
 nnoremap ^ J
 "noremap ) %
 "noremap ( %
-noremap <silent> <C-\> :<C-u> call background#ToggleBackground()<CR>
+noremap <silent> <C-\>
+  \ :<C-u> call background#ToggleBackground('Atelier_SeasideLight', 'Atelier_SeasideDark')<CR>
 
 " explicit nnoremap and vnoremap
 " so that onoremap doesn't get overwritten
@@ -382,12 +383,12 @@ endif
 function! LanguageClientMaps()
   if has_key(g:LanguageClient_serverCommands, &filetype)
     nnoremap <buffer> <silent> gd
-        \ :call LanguageClient#textDocument_definition()<CR>
+      \ :call LanguageClient#textDocument_definition()<CR>
 
     nnoremap <silent> S
-        \ :call LanguageClient#textDocument_rename()<CR>
+      \ :call LanguageClient#textDocument_rename()<CR>
 
     nnoremap <silent> <Leader><Leader>
-        \ :call LanguageClient#textDocument_hover()<CR>
+      \ :call LanguageClient#textDocument_hover()<CR>
   endif
 endfunction
