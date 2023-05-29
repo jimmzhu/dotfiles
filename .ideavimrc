@@ -1,0 +1,15 @@
+set hlsearch                        " highlight search terms
+set ignorecase                      " ignore case when searching
+set incsearch                       " show search matches as you type
+set scrolloff=3                     " keeps cursor within 3 lines of screen
+set smartcase                       " don't ignore case for capitalized search
+
+source ~/.config/nvim/mappings.vim
+noremap <Backspace> <C-S-6>
+noremap <silent> S :action RenameElement<CR>
+noremap <silent> <C-H> b
+noremap <silent> <C-L> w
+noremap <silent> <C-K> :action EditorBackwardParagraph<CR>
+noremap <silent> <C-J> :action EditorForwardParagraph<CR>
+noremap <silent> <C-S-8> :action FindUsages<CR>
+noremap <silent> \ :action CommentByLineComment<CR>

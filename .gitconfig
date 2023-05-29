@@ -1,12 +1,13 @@
 [user]
 	name = Jimmy Zhu
 	email = jimmzhu@gmail.com
+[color]
+	ui = auto
 [alias]
 	co = checkout
 	br = branch
 	st = status
-	hi = "log --pretty=format:\"%C(auto)%h%d%n%s %C(#00a0ff)[%an %ad]\" --graph --date=short"
-	hist = "log --pretty=format:\"%C(auto)%h%d%n%s %C(#00a0ff)[%an %ad]\" --graph --date=short"
+	hi = "log --pretty=format:\"%C(auto)%h %C(white)%ad%C(auto)%d%n%s %C(cyan)@%an\" --graph --date=short"
 [push]
 	default = upstream
 [core]
