@@ -12,6 +12,8 @@ set list listchars=tab:→\ ,trail:·  " show unwanted whitespace
 set nowrap                          " do not wrap lines longer than window
 set whichwrap+=h,l                  " wrap h and l when at start or end of line
 set ssop=curdir,folds,tabpages      " exclude 'options' from session options
+set updatetime=300                  " use shorter update time for autocompletion
+"set signcolumn=number               " merge sign column and number column
 " searching
 set incsearch                       " show search matches as you type
 set hlsearch                        " highlight search terms
@@ -24,7 +26,6 @@ set softtabstop=4                   " number of cols that hitting <Tab> creates
 set shiftwidth=2                    " [auto]indenting indents 2 columns
 set expandtab                       " tabs insert spaces instead
 set smarttab                        " tabbing at start of line uses shiftwidth
-
 " ----------------------------------------------------------------------------
 "  GUI
 " ----------------------------------------------------------------------------
@@ -78,47 +79,74 @@ let $TMPDIR = "~/.config/nvim/tmp"
 "  Plugins
 " ----------------------------------------------------------------------------
 
-let g:fzf_layout = { 'down': '~25%' }
+let $FZF_DEFAULT_OPTS = '--layout=reverse'
+let g:coc_fzf_opts = ['--layout=reverse']
+let g:coc_global_extensions = [
+  \ 'coc-json',
+  \ 'coc-tsserver',
+  \ 'coc-prettier',
+  \ 'coc-eslint',
+  \ 'coc-pyright'
+  \ ]
+let g:fzf_colors = {
+  \ 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment']
+  \ }
 let g:fzf_command_prefix = 'Fzf'
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.5 } }
+let g:nnn#layout = { 'window': { 'width': 0.8, 'height': 0.5 } }
+let g:nnn#set_default_mappings = 0
+let g:nnn#action = {
+  \ }
 let g:airline_theme = 'zenburn'
 let g:airline_powerline_fonts=1     " enable powerline font symbols
 let g:airline_section_y=''          " don't show file encoding
-let g:CommandTMatchWindowReverse=0  " show matched file at top of match window
-let g:ycm_allow_changing_updatetime=0
-let g:ycm_seed_identifiers_with_syntax=1
 let g:tagbar_autoclose=1            " auto-close tagbar window on tag selection
-let g:NERDTreeQuitOnOpen=1          " auto-close nerdtree on open
-let g:NERDTreeMinimalUI=1
-let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-    \ 'python': ['pyls'],
-    \ }
+
+"let g:NERDTreeQuitOnOpen=1          " auto-close nerdtree on open
+"let g:NERDTreeMinimalUI=1
+"let g:LanguageClient_serverCommands = {
+"    \ 'javascript': ['javascript-typescript-stdio'],
+"    \ 'typescript': ['javascript-typescript-stdio'],
+"    \ 'python': ['pyls'],
+"    \ }
+"let g:LanguageClient_rootMarkers = {
+"    \ 'javascript': ['jsconfig.json'],
+"    \ 'typescript': ['tsconfig.json'],
+"    \ }
 
 " Plugins to consider:
 " snipmate, ultisnips
 
-" TODO:
-" nnn.vim + floating windows??
-
 call plug#begin('~/.config/nvim/plugged')
 Plug 'jiangmiao/auto-pairs'
 "Plug 'm-kat/aws-vim'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'antoinemadec/coc-fzf', { 'branch': 'release' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+Plug 'mcchrish/nnn.vim'
 Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
-Plug 'ncm2/ncm2'
-Plug 'ncm2/ncm2-path'
-Plug 'roxma/nvim-yarp'
 
 "Syntax plugins
 Plug 'ap/vim-css-color'
 Plug 'leafgarland/typescript-vim'
-"Plug 'pangloss/vim-javascript' | Plug 'mxw/vim-jsx'
+Plug 'peitalin/vim-jsx-typescript'
+"Plug 'pangloss/vim-javascript'
 "Plug 'elzr/vim-json'
 "Plug 'digitaltoad/vim-pug'
 "Plug 'tpope/vim-rails'
@@ -132,7 +160,12 @@ Plug 'leafgarland/typescript-vim'
 "Plug 'scrooloose/syntastic'
 "Plug 'tpope/vim-fugitive'
 "Plug 'scrooloose/nerdtree'
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+"
+"Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+"Plug 'ncm2/ncm2'
+"Plug 'ncm2/ncm2-path'
+"Plug 'roxma/nvim-yarp'
+
 call plug#end()
 
 filetype plugin indent on
@@ -142,27 +175,60 @@ filetype plugin indent on
 " ----------------------------------------------------------------------------
 
 let mapleader = " "
-noremap <silent> <C-M-n> <Esc>:edit .<CR>
 
 " FILE SEARCHING
 """"""""""""""""""""
-nnoremap <Leader>f :Ggrep<Space>
+nnoremap <Leader>f :FzfRg<Space>
 nnoremap <silent> <Leader>o :FzfFiles<CR>
 nnoremap <silent> <Leader>b :FzfGFiles?<CR>
+nnoremap <silent> <Leader>\ :FzfColors<CR>
 nnoremap <silent> <Leader>l :TagbarOpenAutoClose<CR>
+nnoremap <silent> - :NnnPicker %:p:h<CR>
 
 noremap ; :
 
 " LANGUAGE SERVER
 """"""""""""""""""""
-
+nnoremap <silent> <Leader><Leader> :call CocAction('doHover')<CR>
+nmap <silent> <C-Space> <Plug>(coc-codeaction)
+nmap <silent> S <Plug>(coc-rename)
+"TODO: combined go to definition / references
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> ge <Plug>(coc-diagnostic-next)
+nmap <silent> gE <Plug>(coc-diagnostic-prev)
+xmap <silent> <Leader><Leader> <Plug>(coc-range-select)
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+" use <TAB> to navigate the popup menu and <CR> to confirm:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+"xmap <leader>a  <Plug>(coc-codeaction-selected)
+"nmap <leader>a  <Plug>(coc-codeaction-selected)
+" Apply AutoFix to problem on the current line.
+"nmap <leader>qf  <Plug>(coc-fix-current)
+noremap <silent> <Leader>; :<C-u>CocFzfList commands<CR>
+noremap <silent> <Leader>e :<C-u>CocFzfList diagnostics --current-buf<CR>
+nnoremap <silent> <C-o><C-o> :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " BASIC NAVIGATION
 """"""""""""""""""""
 "Shift   = high-level navigation   (1/2 page, start/end of line)
 noremap H ^
 nnoremap L $
-vnoremap L g_
+xnoremap L g_
 noremap J <C-d>
 noremap K <C-u>
 
@@ -186,8 +252,8 @@ noremap b F
 " needs improvement -- check out Tag Bar
 nnoremap <silent> } :call motion#EndBlock(0)<CR>
 nnoremap <silent> { :call motion#StartBlock(0)<CR>
-vnoremap <silent> } :<C-u>call motion#EndBlock(1)<CR>
-vnoremap <silent> { :<C-u>call motion#StartBlock(1)<CR>
+xnoremap <silent> } :<C-u>call motion#EndBlock(1)<CR>
+xnoremap <silent> { :<C-u>call motion#StartBlock(1)<CR>
 
 " COMMAND MODE
 """"""""""""""""""""
@@ -200,22 +266,23 @@ cnoremap <C-l> <S-Right>
 
 " TABS
 """"""""""""""""""""
-noremap ( gT
-noremap ) gt
-noremap [5^ gT
-noremap [6^ gt
-nnoremap <silent> <C-S-(> :tabmove -1<CR>
-nnoremap <silent> <C-S-)> :tabmove +1<CR>
-vnoremap <silent> <C-S-(> :<C-u>tabmove -1<CR>
-vnoremap <silent> <C-S-)> :<C-u>tabmove +1<CR>
+noremap <silent> ( gT
+noremap <silent> ) gt
+noremap <silent> [5^ gT
+noremap <silent> [6^ gt
+nnoremap <C-S-(> :tabmove -1<CR>
+nnoremap <C-S-)> :tabmove +1<CR>
+vnoremap <C-S-(> :<C-u>tabmove -1<CR>
+vnoremap <C-S-)> :<C-u>tabmove +1<CR>
 
 " SPLITS
 """"""""""""""""""""
-nnoremap <silent> <C-M-d> :q<CR>
+noremap <silent> <C-M-d> <Esc>:q<CR>
 noremap <silent> <C-M-h> <C-w>h
 noremap <silent> <C-M-l> <C-w>l
 noremap <silent> <C-M-j> <C-w>j
 noremap <silent> <C-M-k> <C-w>k
+noremap <silent> <leader>d <Esc>:q<CR>
 noremap <silent> <leader>r <C-w>r
 noremap <silent> <leader>e <C-w>=
 noremap <silent> <leader>v <Esc>:vsplit<CR>
@@ -260,8 +327,8 @@ nnoremap yh y0
 nnoremap dip vipjd
 " remap swap
 nnoremap s r
-vnoremap s r
-nnoremap S R
+xnoremap s r
+"nnoremap S R
 
 " CHANGE IN TWEAKS
 """"""""""""""""""""
@@ -275,19 +342,16 @@ onoremap i<Space> iW
 " CODING HOTKEYS
 """"""""""""""""""""
 " tab indenting/unindenting
-vnoremap <Tab> >gv
-vnoremap <S-Tab> <gv
+xnoremap <Tab> >gv
+xnoremap <S-Tab> <gv
 nnoremap <Tab> >>
 nnoremap <S-Tab> <<
-" use <TAB> to select the popup menu:
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " MACRO MAGIC
 """"""""""""""""""""
 " search, replace for highlighted text (backslashes not supported)
-vnoremap <silent> * <Esc>/\V<C-r>*/<CR>
-vnoremap <C-F> <Esc>:%s/\V<C-r>*//gc<Left><Left><Left>
+xnoremap <silent> * <Esc>/\V<C-r>*/<CR>
+xnoremap <C-F> <Esc>:%s/\V<C-r>*//gc<Left><Left><Left>
 " change global double quotes to single quotes
 nnoremap <silent> cg" :%s/\v\"([^\n\"'#]*)\"/'\1'/gc<CR>
 nnoremap <silent> c" :s/\v\"([^\n\"'#]*)\"/'\1'/g<CR>:noh<CR>
@@ -295,7 +359,7 @@ nnoremap <silent> c' :s/\v'([^\n\"']*)'/\"\1\"/g<CR>:noh<CR>
 "universal comment toggler: regex OP
 "BONUS: it doesn't clutter up your /search history now
 nnoremap <silent> \ v:<C-u> call comments#ToggleComments()<CR>
-vnoremap <silent> \ :<C-u> call comments#ToggleComments()<CR>
+xnoremap <silent> \ :<C-u> call comments#ToggleComments()<CR>
 
 " SPECIAL INSERTS
 """"""""""""""""""""
@@ -311,8 +375,6 @@ nnoremap <S-CR> O
 " MISCELLANEOUS
 """"""""""""""""""""
 nnoremap ^ J
-"noremap ) %
-"noremap ( %
 noremap <silent> <C-\>
   \ :<C-u> call background#ToggleBackground('Atelier_SeasideLight', 'Atelier_SeasideDark')<CR>
 
@@ -337,7 +399,7 @@ noremap r <Esc><C-r>
 " ----------------------------------------------------------------------------
 
 " enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
+"autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " auto-set indentation based on file type
 autocmd FileType python setlocal shiftwidth=4
@@ -361,34 +423,18 @@ autocmd BufWritePre * :%s/\s\+$//e
 "augroup END
 
 " load last session if available (update on close)
-" (doesn't play well with YouCompleteMe)
 autocmd VimEnter * nested :call sessions#LoadSession()
 autocmd VimLeave * :call sessions#UpdateSession()
 nnoremap <leader>a :call sessions#MakeSession()<CR>
-vnoremap <leader>a :<C-u>call sessions#MakeSession()<CR>
+xnoremap <leader>a :<C-u>call sessions#MakeSession()<CR>
 
 " open quickfix window after greps
 autocmd QuickFixCmdPost *grep* cwindow
 " don't expand tabs for make files
 autocmd FileType make setlocal noexpandtab
-" map language client commands
-autocmd FileType * call LanguageClientMaps()
 
 if has('nvim')
   autocmd! FileType fzf
   autocmd  FileType fzf set laststatus=0 noshowmode noruler
     \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 endif
-
-function! LanguageClientMaps()
-  if has_key(g:LanguageClient_serverCommands, &filetype)
-    nnoremap <buffer> <silent> gd
-      \ :call LanguageClient#textDocument_definition()<CR>
-
-    nnoremap <silent> S
-      \ :call LanguageClient#textDocument_rename()<CR>
-
-    nnoremap <silent> <Leader><Leader>
-      \ :call LanguageClient#textDocument_hover()<CR>
-  endif
-endfunction

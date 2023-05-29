@@ -28,12 +28,7 @@
 test -s ~/.alias && . ~/.alias || true
 export DISPLAY=localhost:0.0
 export HISTCONTROL=ignoredups
-export FZF_DEFAULT_COMMAND='
-  (git ls-tree -r --name-only HEAD ||
-   find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
-      sed s/^..//) 2> /dev/null'
-
-#[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_COMMAND='rg --files'
 
 # nodejs
 export NVM_DIR="$HOME/.nvm"

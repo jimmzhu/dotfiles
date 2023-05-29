@@ -19,6 +19,22 @@ https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-
 
 https://confluence.atlassian.com/bitbucket/set-up-an-ssh-key-728138079.html
 
+### Install ripgrep
+
+Fast regex-based search through files (like grep)
+```
+sudo zypper ar https://download.opensuse.org/repositories/utilities/openSUSE_Leap_15.2/utilities.repo
+sudo zypper ref
+sudo zypper in ripgrep ripgrep-bash-completion
+```
+
+### Install nnn file explorer
+```
+sudo zypper ar https://download.opensuse.org/repositories/utilities/openSUSE_Leap_15.2/utilities.repo
+sudo zypper ref
+sudo zypper in nnn
+```
+
 ### Install universal-ctags
 
 This is needed for vim tagbar plugin.
@@ -31,7 +47,7 @@ sudo ln -s $(which universal-ctags) /usr/local/bin/ctags
 ### Install latest neovim
 
 ```
-sudo zypper ar https://download.opensuse.org/repositories/editors/openSUSE_Leap_15.1/editors.repo
+sudo zypper ar https://download.opensuse.org/repositories/editors/openSUSE_Leap_15.2/editors.repo
 sudo zypper ref
 sudo zypper in neovim python2-neovim python3-neovim
 ```
@@ -57,11 +73,20 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
 
 nvm ls
 nvm install node
+npm install -g --upgrade npm
+npm install -g npm-check-updates
+```
+
+#### Install AWS CDK
+https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_install
+```
+npm install -g aws-cdk
 ```
 
 #### Install javascript/typescript language server
 ```
-npm install -g javascript-typescript-langserver
+#npm install -g javascript-typescript-langserver
+npm install -g typescript-language-server
 ```
 
 ### Install python via pyenv
@@ -86,6 +111,9 @@ pyenv global 3.7.2
 # Upgrade pip
 which pip
 pip install --upgrade pip
+
+# Install pipenv (for Python projects)
+pip install pipenv
 ```
 
 #### Install AWS CLI

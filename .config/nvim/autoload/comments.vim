@@ -27,8 +27,8 @@ function! comments#ToggleComments()
   elseif fSuffix == 'm' || fSuffix == 'tex'
     " .m (Matlab), .tex (TeX)
     execute "normal! :s!^!%!\<CR>"
-  elseif index(['c', 'cpp', 'h', 'cs', 'java', 'js', 'jsx', 'scala',
-              \ 'css', 'scss', 'sass', 'less'], fSuffix) >= 0
+  elseif index(['c', 'cpp', 'h', 'cs', 'java', 'js', 'jsx', 'ts', 'tsx',
+              \ 'scala', 'css', 'scss', 'sass', 'less'], fSuffix) >= 0
     " c++-style comments //
     execute "normal! :s!^!//!\<CR>"
   else
