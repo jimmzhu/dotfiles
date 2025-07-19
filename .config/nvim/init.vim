@@ -35,8 +35,8 @@ set smarttab                        " tabbing at start of line uses shiftwidth
     " colorscheme
     set t_Co=256                    " 256 colors in terminal
     syntax enable                   " enable syntax highlighting
-    set background=dark             " dark background
-    colorscheme Atelier_SeasideDark " colorscheme @ ~/.config/nvim/colors
+    set background=light            " light background
+    colorscheme Atelier_SeasideLight " colorscheme @ ~/.config/nvim/colors
     " guides
     set number                      " line numbers
     set title                       " set window title
@@ -45,7 +45,7 @@ set smarttab                        " tabbing at start of line uses shiftwidth
     set colorcolumn=80,100          " highlight 80th and 100th columns
     " statusbar, menubar, commandline
     set laststatus=2                " always show statusbar
-    set guioptions=aegit            " get rid of menu
+"    set guioptions=aegit            " get rid of menu
     set showcmd                     " shows command as you type
     set showmode                    " shows what mode you're in
     set wildmenu                    " enhanced command line completion

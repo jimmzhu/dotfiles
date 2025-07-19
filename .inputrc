@@ -23,7 +23,8 @@
 #
 
 # Append slash '/' to symlinked directories too
-set mark-symlinked-directories on   Append / to symlinked directories too
+# Append / to symlinked directories too
+set mark-symlinked-directories on
 
 # Autocomplete
 set disable-completion on
